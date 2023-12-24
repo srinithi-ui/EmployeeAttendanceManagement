@@ -1,6 +1,7 @@
 package com.example.UserActionService.model.entity;
 
 import com.example.UserActionService.model.constant.FieldName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Report {
     public int emplId;
 
     @Column(name=FieldName.REPORT_DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date reportDate;
 
     @Column(name=FieldName.CHECK_IN)

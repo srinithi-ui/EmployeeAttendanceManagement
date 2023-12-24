@@ -1,10 +1,7 @@
 package com.quinbay.EmployeeAttendaceSystem.httpController;
 
 import com.quinbay.EmployeeAttendaceSystem.model.entity.Operations;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.LoginVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.OperationsVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.SwipeHistoryVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.UserVo;
+import com.quinbay.EmployeeAttendaceSystem.model.vo.*;
 import com.quinbay.EmployeeAttendaceSystem.services.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -119,19 +116,11 @@ public class HttpController {
         return service.viewEmployeePendingStatus(managerId);
     }
 
-    @PostMapping("/report/{id}")
-    public ResponseEntity<String> reportGeneration(@PathVariable int id)
+    @GetMapping("/report/{id}")
+    public List<ReportVo> reportGeneration(@PathVariable int id)
     {
-        String res = service.reportGeneration(id);
-        if(res.equals("Success")){
+        return service.reportGeneration(id);
 
-            return ResponseEntity.status(HttpStatus.OK)
-                    .header("Content-Type", "application/json")
-                    .body(jsonStringSuccess);
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .header("Content-Type", "application/json")
-                .body(jsonStringFailure);
     }
 
 

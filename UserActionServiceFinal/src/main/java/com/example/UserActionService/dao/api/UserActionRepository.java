@@ -15,6 +15,7 @@ public interface UserActionRepository extends JpaRepository<SwipeHistory, Long> 
 
    List<SwipeHistory> findAllByEmployeeId(int empId);
 
+
    @Query("SELECT employeeId, swipeDate, COUNT(*), MIN(swipeTime), MAX(swipeTime) " +
            "FROM SwipeHistory " +
            "WHERE employeeId = :employeeId " +

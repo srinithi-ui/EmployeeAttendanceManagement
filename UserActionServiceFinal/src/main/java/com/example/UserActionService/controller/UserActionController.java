@@ -1,6 +1,7 @@
 package com.example.UserActionService.controller;
 
 import com.example.UserActionService.model.entity.Operations;
+import com.example.UserActionService.model.entity.Report;
 import com.example.UserActionService.model.entity.SwipeHistory;
 import com.example.UserActionService.model.vo.OperationsVo;
 import com.example.UserActionService.model.vo.ReportVo;
@@ -66,7 +67,7 @@ public class UserActionController {
 
 
     @PostMapping("/report")
-    public String reportGeneration(@RequestParam int id){
+    public List<ReportVo> reportGeneration(@RequestParam int id){
         return actionServices.reportGeneration(id);
     }
 

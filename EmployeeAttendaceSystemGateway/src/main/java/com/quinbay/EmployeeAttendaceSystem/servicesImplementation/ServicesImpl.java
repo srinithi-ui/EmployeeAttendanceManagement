@@ -3,10 +3,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quinbay.EmployeeAttendaceSystem.model.entity.Operations;
 import com.quinbay.EmployeeAttendaceSystem.model.entity.User;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.LoginVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.OperationsVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.SwipeHistoryVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.UserVo;
+import com.quinbay.EmployeeAttendaceSystem.model.vo.*;
 import com.quinbay.EmployeeAttendaceSystem.services.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -135,14 +132,14 @@ public class ServicesImpl implements Services{
 
 
     }
-    public String reportGeneration(int id) {
+    public List<ReportVo> reportGeneration(int id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Operations> entity = new HttpEntity<>(headers);
         UriComponents builder = UriComponentsBuilder.fromHttpUrl(baseUrlAction+"/report").queryParam("id",id).build();
 
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, String.class).getBody();
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, List.class).getBody();
 
     }
 

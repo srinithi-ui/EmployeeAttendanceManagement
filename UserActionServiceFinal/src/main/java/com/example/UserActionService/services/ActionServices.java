@@ -1,6 +1,7 @@
 package com.example.UserActionService.services;
 
 import com.example.UserActionService.model.entity.Operations;
+import com.example.UserActionService.model.entity.Report;
 import com.example.UserActionService.model.entity.SwipeHistory;
 import com.example.UserActionService.model.vo.OperationsVo;
 import com.example.UserActionService.model.vo.ReportVo;
@@ -27,10 +28,7 @@ public interface ActionServices {
 
 
 
-    String reportGeneration(int id);
+    List<ReportVo> reportGeneration(int id);
 
 
-//    List<ReportVo> generateUserReport(int id);
-
-//}
 }

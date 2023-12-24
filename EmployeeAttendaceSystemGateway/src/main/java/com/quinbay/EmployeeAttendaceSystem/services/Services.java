@@ -1,10 +1,7 @@
 package com.quinbay.EmployeeAttendaceSystem.services;
 
 import com.quinbay.EmployeeAttendaceSystem.model.entity.Operations;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.LoginVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.OperationsVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.SwipeHistoryVo;
-import com.quinbay.EmployeeAttendaceSystem.model.vo.UserVo;
+import com.quinbay.EmployeeAttendaceSystem.model.vo.*;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public interface Services {
 
     List<OperationsVo> getUserActionhistory(int id);
     List<OperationsVo> viewEmployeePendingStatus(int id);
-    String reportGeneration(int id);
+    List<ReportVo> reportGeneration(int id);
 
 
 }

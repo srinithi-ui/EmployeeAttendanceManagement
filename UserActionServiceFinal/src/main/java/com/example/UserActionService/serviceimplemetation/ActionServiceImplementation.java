@@ -7,6 +7,7 @@ import com.example.UserActionService.model.entity.Operations;
 import com.example.UserActionService.model.entity.Report;
 import com.example.UserActionService.model.entity.SwipeHistory;
 import com.example.UserActionService.model.vo.OperationsVo;
+import com.example.UserActionService.model.vo.ReportVo;
 import com.example.UserActionService.model.vo.SwipeHistoryVo;
 import com.example.UserActionService.model.vo.UserVo;
 import com.example.UserActionService.services.ActionServices;
@@ -23,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -51,11 +53,12 @@ public class ActionServiceImplementation implements ActionServices {
     private String userServiceUrl="http://localhost:8080/userService";
     SimpleDateFormat dateFormatTime = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat dateFormatDate = new SimpleDateFormat("yyyy-MM-dd");
+    ObjectMapper objectMapper = new ObjectMapper();
 
     public List<SwipeHistoryVo> getUserSwipehistory(int id) {
 
         List<SwipeHistory> swipeHistories=userActionRepository.findAllByEmployeeId(id);
-        ObjectMapper objectMapper = new ObjectMapper();
+
         return objectMapper.convertValue(swipeHistories, List.class);
     }
 
@@ -134,36 +137,34 @@ public class ActionServiceImplementation implements ActionServices {
    }
 
     Object[] row;
-    public String reportGeneration(int id)
+
+    public List<ReportVo> reportGeneration(int id)
     {
         List<Object[]> entries = userActionRepository.getSwipeSummaryByEmployeeId(id);
 
         for(Object[] row : entries){
             int eid = (int) row[0];
-            Timestamp swipeDate = (Timestamp) row[1];
+            Timestamp timestamp = (Timestamp) row[1];
+            Date swipeDate = new Date(timestamp.getTime());
+
             Long count = (long) row[2];
             Time min = (Time) row[3];
             Time max = (Time) row[4];
 
-            System.out.println(eid+" "+swipeDate+" "+count+" "+min+" "+max);
 
             Report report = new Report();
             report.setEmplId(eid);
             report.setCheckIn(min);
             report.setCheckOut(max);
-            report.setReportDate(Date.valueOf(swipeDate.toLocalDateTime().toLocalDate()));
+            report.setReportDate(swipeDate);
             int diff = max.getHours() - min.getHours();
             report.setWorkingHours(diff);
-            reportRepository.save(report);
+            if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, id))
+                reportRepository.save(report);
         }
 
-
-
-
-
-
-
-        return "Success";
+        List<Report> reportListById = reportRepository.findByEmplId(id);
+        return objectMapper.convertValue(reportListById, List.class);
 
 
     }
