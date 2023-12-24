@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -32,11 +32,25 @@ public class Report {
     @Column(name=FieldName.CHECK_IN)
     public Time checkIn;
 
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
+
+
     @Column(name=FieldName.CHECK_OUT)
     public Time checkOut;
 
     @Column(name=FieldName.WORKING_HOURS)
     public int workingHours;
+
+    @Column(name=FieldName.ACTION_TYPE_REPORT)
+    public String actionType;
+
+
 
 
     public int getReportId() {

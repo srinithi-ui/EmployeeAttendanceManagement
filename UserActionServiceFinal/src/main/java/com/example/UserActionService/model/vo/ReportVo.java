@@ -12,4 +12,8 @@ public class ReportVo {
     private Time checkIn;
     private Time checkOut;
     private int workingHours;
+    private String actionType;
+    private Date actionStarted;
+    private Date actionEnded;
+
 }

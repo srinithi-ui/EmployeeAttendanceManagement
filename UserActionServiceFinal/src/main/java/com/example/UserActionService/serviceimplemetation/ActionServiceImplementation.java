@@ -32,8 +32,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @Service("actionServices")
@@ -79,8 +81,9 @@ public class ActionServiceImplementation implements ActionServices {
     {
         Operations operation= operationRepository.findByEmpIdAndActionTypeAndCreatedDateAndActionStarted(
                 id, operationDetails.getActionType(), operationDetails.getCreatedDate(), operationDetails.getActionStarted());
-        System.out.println("...."+operation);
+
         operation.setStatus(operationDetails.getStatus());
+
         operation.setStatusUpdatedDate(Date.valueOf(LocalDate.now()));
         System.out.println("ksc"+operation);
 
@@ -141,6 +144,7 @@ public class ActionServiceImplementation implements ActionServices {
     public List<ReportVo> reportGeneration(int id)
     {
         List<Object[]> entries = userActionRepository.getSwipeSummaryByEmployeeId(id);
+        List<Object[]> entriesForActions = operationRepository.findActionSummaryByEmpId(id);
 
         for(Object[] row : entries){
             int eid = (int) row[0];
@@ -161,6 +165,31 @@ public class ActionServiceImplementation implements ActionServices {
             report.setWorkingHours(diff);
             if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, id))
                 reportRepository.save(report);
+        }
+
+        for(Object[] row : entriesForActions){
+            int eid = (int) row[0];
+            String actionType = (String) row[1];
+            Date startDate = (Date) row[2];
+            Date endDate= (Date) row[3];
+
+
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+
+            while (!calendar.getTime().after(endDate)) {
+                java.util.Date currentDate =  calendar.getTime();
+                Report report = new Report();
+                report.setEmplId(eid);
+                report.setActionType(actionType);
+                report.setReportDate(currentDate);
+                if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, id))
+                    reportRepository.save(report);
+
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
         }
 
         List<Report> reportListById = reportRepository.findByEmplId(id);

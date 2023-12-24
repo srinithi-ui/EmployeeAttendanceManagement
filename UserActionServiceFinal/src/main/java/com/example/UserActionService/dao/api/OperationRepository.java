@@ -21,4 +21,10 @@ public interface OperationRepository extends JpaRepository<Operations, Long> {
     Operations findByEmpIdAndActionTypeAndCreatedDateAndActionStarted(
             int empId, String actionType, Date createdDate, Date actionStarted);
 
+    @Query("SELECT o.empId,o.actionType, o.actionStarted, o.actionEnded " +
+            "FROM Operations o " +
+            "WHERE o.empId = :empId " +
+            "GROUP BY o.empId, o.actionType, o.actionStarted, o.actionEnded")
+    List<Object[]> findActionSummaryByEmpId(@Param("empId") int empId);
+
 }

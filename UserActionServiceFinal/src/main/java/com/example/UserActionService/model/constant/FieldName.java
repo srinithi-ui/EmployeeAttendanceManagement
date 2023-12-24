@@ -24,6 +24,11 @@ public class FieldName {
     public  final static String CHECK_IN="check_in";
     public  final static String CHECK_OUT="check_out";
     public final static  String WORKING_HOURS="working_hours";
+    public final static  String ACTION_TYPE_REPORT="action_type_report";
+    public final static  String ACTION_STARTED_REPORT="action_started_report";
+    public final static  String ACTION_ENDED_REPORT="action_ended_report";
+
+
 
 
 
