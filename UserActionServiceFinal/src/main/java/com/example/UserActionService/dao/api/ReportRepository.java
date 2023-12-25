@@ -11,8 +11,10 @@ import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
-    @Query("SELECT r FROM Report r WHERE r.emplId = :emplId AND r.reportDate BETWEEN CURRENT_DATE - 7 AND CURRENT_DATE")
-    List<Report> findByEmplId(@Param("emplId") int emplId);
+    @Query("SELECT r FROM Report r WHERE r.emplId = :emplId AND r.reportDate BETWEEN :startDate AND :endDate")
+    List<Report> findByEmplId(@Param("emplId") int emplId,
+                              @Param("startDate") Date startDate,
+                              @Param("endDate") Date endDate);
 
     void deleteByEmplId(int emplId);
     boolean existsByReportDateAndEmplId(Date reportDate, int emplId);

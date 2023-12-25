@@ -28,10 +28,20 @@ public class HttpController {
     }
 
     @PostMapping("/login")
-    public UserVo loginCheck(@RequestBody LoginVo loginVo) {
+    public ResponseEntity<?> loginCheck(@RequestBody LoginVo loginVo) {
 
-            return service.loginCheck(loginVo);
+            UserVo userVo =  service.loginCheck(loginVo);
+        if(userVo.id > 0){
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header("Content-Type", "application/json")
+                    .body(userVo);
+        }
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .header("Content-Type", "application/json")
+                .body(jsonStringFailure);
     }
+
 
 
 

@@ -56,7 +56,8 @@ public class SwipeHistory {
     }
 
     @Column(name=FieldName.SWIPE_DATE,nullable=false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date swipeDate;
 
     public Date getSwipeDate() {

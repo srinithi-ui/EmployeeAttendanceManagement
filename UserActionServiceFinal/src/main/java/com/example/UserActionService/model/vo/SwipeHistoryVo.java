@@ -48,8 +48,8 @@ public class SwipeHistoryVo {
     }
 
     private int employeeId;
-
-    private Time swipeTime;
     private Date swipeDate;
+    private Time swipeTime;
+
 
 }

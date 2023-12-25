@@ -7,13 +7,13 @@ import java.sql.Timestamp;
 public class ReportVo {
 
     private int reportId;
-    private int emplId;
+    public int emplId;
     private Date reportDate;
     private Time checkIn;
     private Time checkOut;
     private int workingHours;
     private String actionType;
-    private Date actionStarted;
-    private Date actionEnded;
+    public Date startDate;
+    public Date endDate;
 
 }

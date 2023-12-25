@@ -33,10 +33,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service("actionServices")
 public class ActionServiceImplementation implements ActionServices {
@@ -57,11 +54,15 @@ public class ActionServiceImplementation implements ActionServices {
     SimpleDateFormat dateFormatDate = new SimpleDateFormat("yyyy-MM-dd");
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<SwipeHistoryVo> getUserSwipehistory(int id) {
+    public List<SwipeHistory> getUserSwipehistory(int id) {
 
         List<SwipeHistory> swipeHistories=userActionRepository.findAllByEmployeeId(id);
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        return objectMapper.convertValue(swipeHistories, List.class);
+//        List<SwipeHistoryVo> list = objectMapper.convertValue(swipeHistories, List.class);
+        return swipeHistories;
+
     }
 
 
@@ -71,7 +72,7 @@ public class ActionServiceImplementation implements ActionServices {
         operation.setCreatedDate(Date.valueOf(LocalDate.now()));
         operation.setStatus("pending");
         operation.setStatusUpdatedDate(Date.valueOf(LocalDate.now()));
-        //ObjectMapper objectMapper = new ObjectMapper();
+
         operationRepository.save(operation);
         return operation.getActionType()+" applied";
 
@@ -108,7 +109,8 @@ public class ActionServiceImplementation implements ActionServices {
         List<Operations> operation= operationRepository.findAllByEmpId(id);
         ObjectMapper objectMapper = new ObjectMapper();
 
-        return objectMapper.convertValue(operation, List.class);
+        List<OperationsVo> list = objectMapper.convertValue(operation, List.class);
+        return list;
     }
 
 
@@ -141,15 +143,15 @@ public class ActionServiceImplementation implements ActionServices {
 
     Object[] row;
 
-    public List<ReportVo> reportGeneration(int id)
+    public List<ReportVo> reportGeneration(ReportVo reportVo)
     {
-        List<Object[]> entries = userActionRepository.getSwipeSummaryByEmployeeId(id);
-        List<Object[]> entriesForActions = operationRepository.findActionSummaryByEmpId(id);
+        List<Object[]> entries = userActionRepository.getSwipeSummaryByEmployeeId(reportVo.emplId);
+        List<Object[]> entriesForActions = operationRepository.findActionSummaryByEmpId(reportVo.emplId);
 
         for(Object[] row : entries){
             int eid = (int) row[0];
-            Timestamp timestamp = (Timestamp) row[1];
-            Date swipeDate = new Date(timestamp.getTime());
+
+            Date swipeDate = (Date) row[1];
 
             Long count = (long) row[2];
             Time min = (Time) row[3];
@@ -163,7 +165,7 @@ public class ActionServiceImplementation implements ActionServices {
             report.setReportDate(swipeDate);
             int diff = max.getHours() - min.getHours();
             report.setWorkingHours(diff);
-            if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, id))
+            if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, reportVo.emplId))
                 reportRepository.save(report);
         }
 
@@ -184,7 +186,7 @@ public class ActionServiceImplementation implements ActionServices {
                 report.setEmplId(eid);
                 report.setActionType(actionType);
                 report.setReportDate(currentDate);
-                if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, id))
+                if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, reportVo.emplId))
                     reportRepository.save(report);
 
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -192,7 +194,7 @@ public class ActionServiceImplementation implements ActionServices {
 
         }
 
-        List<Report> reportListById = reportRepository.findByEmplId(id);
+        List<Report> reportListById = reportRepository.findByEmplId(reportVo.emplId, reportVo.startDate, reportVo.endDate);
         return objectMapper.convertValue(reportListById, List.class);
 
 

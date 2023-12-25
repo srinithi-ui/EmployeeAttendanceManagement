@@ -10,5 +10,6 @@ public class UserVo {
     private String phoneNum;
     private int managerId;
     private String role;
+    private String message = "Success";
 
 }

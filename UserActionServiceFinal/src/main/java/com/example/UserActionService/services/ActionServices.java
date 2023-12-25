@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ActionServices {
-    List<SwipeHistoryVo> getUserSwipehistory(int id);
+    List<SwipeHistory> getUserSwipehistory(int id);
 
     String applyUserActions(int id, Operations operations);
 
@@ -28,7 +28,7 @@ public interface ActionServices {
 
 
 
-    List<ReportVo> reportGeneration(int id);
+    List<ReportVo> reportGeneration(ReportVo reportVo);
 
 
 }

@@ -26,7 +26,7 @@ public class UserActionController {
     ActionServices actionServices;
 
     @GetMapping("/viewswipehistory")
-    public List<SwipeHistoryVo> getSwipeHistory(@RequestParam int id)
+    public List<SwipeHistory> getSwipeHistory(@RequestParam int id)
     {
         return actionServices.getUserSwipehistory(id);
     }
@@ -67,8 +67,8 @@ public class UserActionController {
 
 
     @PostMapping("/report")
-    public List<ReportVo> reportGeneration(@RequestParam int id){
-        return actionServices.reportGeneration(id);
+    public List<ReportVo> reportGeneration(@RequestBody ReportVo reportVo){
+        return actionServices.reportGeneration(reportVo);
     }
 
 
