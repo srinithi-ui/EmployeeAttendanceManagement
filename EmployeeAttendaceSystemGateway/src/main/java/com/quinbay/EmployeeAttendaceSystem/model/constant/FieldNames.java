@@ -20,6 +20,7 @@ public class FieldNames {
 
     public  final static String SWIPE_ID =" swipe_id ";
     public  final static String EMP_ID="employee_id";
+    public  final static String SWIPE_DATE="swipe_date";
     public  final static String SWIPE_TIME="swipe_time";
 
     public  final static String ACTION_ID =" action_id ";

@@ -18,7 +18,7 @@ public interface ActionServices {
 
     String applyUserActions(int id, Operations operations);
 
-    String applyActionStatus(int id, Operations operation);
+    String applyActionStatus(Operations operation);
 
     String userSwipeDetails(int id);
 

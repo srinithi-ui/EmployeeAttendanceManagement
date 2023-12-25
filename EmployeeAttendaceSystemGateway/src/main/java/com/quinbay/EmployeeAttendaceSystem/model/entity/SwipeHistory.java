@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -24,34 +25,52 @@ public class SwipeHistory {
         this.id = id;
     }
 
-    public int getEmpId() {
-        return empId;
-    }
 
-    public void setEmpId(int empId) {
-        this.empId = empId;
-    }
 
-    public Timestamp getSwipeTime() {
+
+
+    public Time getSwipeTime() {
         return swipeTime;
     }
 
-    public void setSwipeTime(Timestamp swipeTime) {
+    public void setSwipeTime(Time swipeTime) {
         this.swipeTime = swipeTime;
     }
 
     @Id
-    @Column(name=FieldNames.SWIPE_ID)
+    @Column(name=FieldNames.ID)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @Column(name=FieldNames.EMP_ID,nullable=false)
-    private int empId;
+    private int employeeId;
 
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    @Column(name=FieldNames.SWIPE_DATE,nullable=false)
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String swipeDate;
+
+    public String getSwipeDate() {
+        return swipeDate;
+    }
+
+    public void setSwipeDate(String swipeDate) {
+        this.swipeDate = swipeDate;
+    }
 
     @Column(name=FieldNames.SWIPE_TIME,nullable=false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private Timestamp swipeTime;
+    private Time swipeTime;
+
+
 
 
 }

@@ -17,11 +17,11 @@ public interface Services {
     String userSwipeDetails(SwipeHistoryVo swipeHistoryVo);
 
     String applyUserActions(int id, Operations operations);
-    String applyActionStatus(int id, Operations operation);
+    String applyActionStatus( Operations operation);
 
     List<OperationsVo> getUserActionhistory(int id);
     List<OperationsVo> viewEmployeePendingStatus(int id);
-    List<ReportVo> reportGeneration(int id);
+    List<ReportVo> reportGeneration(ReportVo reportVo);
 
 
 }

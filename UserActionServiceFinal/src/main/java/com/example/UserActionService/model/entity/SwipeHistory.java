@@ -56,15 +56,15 @@ public class SwipeHistory {
     }
 
     @Column(name=FieldName.SWIPE_DATE,nullable=false)
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date swipeDate;
 
-    public Date getSwipeDate() {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String swipeDate;
+
+    public String getSwipeDate() {
         return swipeDate;
     }
 
-    public void setSwipeDate(Date swipeDate) {
+    public void setSwipeDate(String swipeDate) {
         this.swipeDate = swipeDate;
     }
 

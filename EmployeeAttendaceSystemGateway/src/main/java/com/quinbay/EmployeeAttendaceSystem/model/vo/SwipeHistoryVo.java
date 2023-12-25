@@ -22,7 +22,9 @@ public class SwipeHistoryVo {
         this.id = id;
     }
 
-
+    public int getEmployeeId() {
+        return employeeId;
+    }
 
     public Time getSwipeTime() {
         return swipeTime;
@@ -32,28 +34,23 @@ public class SwipeHistoryVo {
         this.swipeTime = swipeTime;
     }
 
-    public Date getSwipeDate() {
-        return swipeDate;
-    }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
 
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
 
-    public void setSwipeDate(Date swipeDate) {
+    private int employeeId;
+
+    public String getSwipeDate() {
+        return swipeDate;
+    }
+
+    public void setSwipeDate(String swipeDate) {
         this.swipeDate = swipeDate;
     }
 
-
-
-    private int employeeId;
-
+    private String swipeDate;
     private Time swipeTime;
-    private Date swipeDate;
-
 
 }

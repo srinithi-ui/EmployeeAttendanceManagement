@@ -29,10 +29,12 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.*;
 
 @Service("actionServices")
@@ -69,23 +71,23 @@ public class ActionServiceImplementation implements ActionServices {
     public String applyUserActions(int id, Operations operation)
     {
         operation.setEmpId(id);
-        operation.setCreatedDate(Date.valueOf(LocalDate.now()));
+        operation.setCreatedDate(Date.valueOf(LocalDate.now()).toString());
         operation.setStatus("pending");
-        operation.setStatusUpdatedDate(Date.valueOf(LocalDate.now()));
+        operation.setStatusUpdatedDate(Date.valueOf(LocalDate.now()).toString());
 
         operationRepository.save(operation);
         return operation.getActionType()+" applied";
 
     }
 
-    public String applyActionStatus(int id, Operations operationDetails)
+    public String applyActionStatus( Operations operationDetails)
     {
         Operations operation= operationRepository.findByEmpIdAndActionTypeAndCreatedDateAndActionStarted(
-                id, operationDetails.getActionType(), operationDetails.getCreatedDate(), operationDetails.getActionStarted());
+                operationDetails.getEmpId(), operationDetails.getActionType(), operationDetails.getCreatedDate(), operationDetails.getActionStarted());
 
         operation.setStatus(operationDetails.getStatus());
 
-        operation.setStatusUpdatedDate(Date.valueOf(LocalDate.now()));
+        operation.setStatusUpdatedDate(Date.valueOf(LocalDate.now()).toString());
         System.out.println("ksc"+operation);
 
         operationRepository.save(operation);
@@ -98,7 +100,7 @@ public class ActionServiceImplementation implements ActionServices {
         SwipeHistory swipeHistory = new SwipeHistory();
 
         swipeHistory.setEmployeeId(empId);
-        swipeHistory.setSwipeDate(Date.valueOf(LocalDate.now()));
+        swipeHistory.setSwipeDate(Date.valueOf(LocalDate.now()).toString());
         swipeHistory.setSwipeTime(Time.valueOf(LocalTime.now()));
         userActionRepository.save(swipeHistory);
         return "Success";
@@ -151,9 +153,9 @@ public class ActionServiceImplementation implements ActionServices {
         for(Object[] row : entries){
             int eid = (int) row[0];
 
-            Date swipeDate = (Date) row[1];
+            String swipeDate = (String) row[1];
 
-            Long count = (long) row[2];
+//            Long count = (long) row[2];
             Time min = (Time) row[3];
             Time max = (Time) row[4];
 
@@ -172,30 +174,29 @@ public class ActionServiceImplementation implements ActionServices {
         for(Object[] row : entriesForActions){
             int eid = (int) row[0];
             String actionType = (String) row[1];
-            Date startDate = (Date) row[2];
-            Date endDate= (Date) row[3];
+            String startDateString = (String) row[2];
+            String endDateString = (String) row[3];
+            LocalDate startDate = LocalDate.parse(startDateString);
+            LocalDate endDate = LocalDate.parse(endDateString);
+            while (!startDate.isAfter(endDate)) {
 
-
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(startDate);
-
-            while (!calendar.getTime().after(endDate)) {
-                java.util.Date currentDate =  calendar.getTime();
                 Report report = new Report();
                 report.setEmplId(eid);
                 report.setActionType(actionType);
-                report.setReportDate(currentDate);
+                report.setReportDate(startDateString);
                 if(!reportRepository.existsByReportDateAndEmplId(report.reportDate, reportVo.emplId))
                     reportRepository.save(report);
 
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                startDate = startDate.plusDays(1);
             }
 
         }
 
         List<Report> reportListById = reportRepository.findByEmplId(reportVo.emplId, reportVo.startDate, reportVo.endDate);
-        return objectMapper.convertValue(reportListById, List.class);
+
+        List<ReportVo> reportList = objectMapper.convertValue(reportListById, List.class);
+
+        return reportList;
 
 
     }

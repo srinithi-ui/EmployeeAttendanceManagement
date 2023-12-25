@@ -6,9 +6,13 @@ import java.sql.Time;
 public class ReportVo {
 
     private int reportId;
-    private int emplId;
-    private Date reportDate;
+    public int emplId;
+    public String reportDate;
     private Time checkIn;
     private Time checkOut;
     private int workingHours;
+    private String actionType;
+    public Date startDate;
+    public Date endDate;
+    public String day;
 }

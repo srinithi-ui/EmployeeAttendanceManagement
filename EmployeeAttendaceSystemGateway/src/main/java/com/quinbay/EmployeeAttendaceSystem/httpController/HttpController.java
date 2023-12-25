@@ -96,11 +96,11 @@ public class HttpController {
                 .body(jsonStringFailure);
     }
 
-    @PutMapping("/approval/{id}")
-    public ResponseEntity<String> actionUpdate(@PathVariable int id, @RequestBody Operations operation)
+    @PutMapping("/approval")
+    public ResponseEntity<String> actionUpdate( @RequestBody Operations operation)
     {
 
-        String res = service.applyActionStatus(id,operation);
+        String res = service.applyActionStatus(operation);
         if(res.contains("updated")){
 
             return ResponseEntity.status(HttpStatus.OK)
@@ -126,10 +126,10 @@ public class HttpController {
         return service.viewEmployeePendingStatus(managerId);
     }
 
-    @GetMapping("/report/{id}")
-    public List<ReportVo> reportGeneration(@PathVariable int id)
+    @PostMapping("/report")
+    public List<ReportVo> reportGeneration(@RequestBody ReportVo reportVo)
     {
-        return service.reportGeneration(id);
+        return service.reportGeneration(reportVo);
 
     }
 

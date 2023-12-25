@@ -39,47 +39,47 @@ public class OperationsVo {
     }
 
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getStatusUpdatedDate() {
+        return statusUpdatedDate;
+    }
+
+    public void setStatusUpdatedDate(String statusUpdatedDate) {
+        this.statusUpdatedDate = statusUpdatedDate;
+    }
+
+    public String getActionStarted() {
+        return actionStarted;
+    }
+
+    public void setActionStarted(String actionStarted) {
+        this.actionStarted = actionStarted;
+    }
+
+    public String getActionEnded() {
+        return actionEnded;
+    }
+
+    public void setActionEnded(String actionEnded) {
+        this.actionEnded = actionEnded;
+    }
 
     private int empId;
     private String status;
     private String actionType;
-    private Date createdDate;
+    private String createdDate;
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getStatusUpdatedDate() {
-        return statusUpdatedDate;
-    }
-
-    public void setStatusUpdatedDate(Date statusUpdatedDate) {
-        this.statusUpdatedDate = statusUpdatedDate;
-    }
-
-    public Date getActionStarted() {
-        return actionStarted;
-    }
-
-    public void setActionStarted(Date actionStarted) {
-        this.actionStarted = actionStarted;
-    }
-
-    public Date getActionEnded() {
-        return actionEnded;
-    }
-
-    public void setActionEnded(Date actionEnded) {
-        this.actionEnded = actionEnded;
-    }
-
-    private Date statusUpdatedDate;
-    private Date actionStarted;
-    private Date actionEnded;
+    private String statusUpdatedDate;
+    private String actionStarted;
+    private String actionEnded;
 
 
     public String getEmployeeName() {

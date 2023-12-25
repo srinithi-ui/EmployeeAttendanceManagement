@@ -19,7 +19,7 @@ public interface OperationRepository extends JpaRepository<Operations, Long> {
      List<Operations> findPendingActionsByEmployeeIds(@Param("empIds") List<Integer> empIds);
 
     Operations findByEmpIdAndActionTypeAndCreatedDateAndActionStarted(
-            int empId, String actionType, Date createdDate, Date actionStarted);
+            int empId, String actionType, String createdDate, String actionStarted);
 
     @Query("SELECT o.empId,o.actionType, o.actionStarted, o.actionEnded " +
             "FROM Operations o " +

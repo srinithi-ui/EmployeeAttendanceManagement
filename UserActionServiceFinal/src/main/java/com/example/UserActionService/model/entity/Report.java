@@ -27,7 +27,15 @@ public class Report {
 
     @Column(name=FieldName.REPORT_DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date reportDate;
+    public String reportDate;
+
+    public String getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(String reportDate) {
+        this.reportDate = reportDate;
+    }
 
     @Column(name=FieldName.CHECK_IN)
     public Time checkIn;
@@ -69,13 +77,6 @@ public class Report {
         this.emplId = emplId;
     }
 
-    public Date getReportDate() {
-        return reportDate;
-    }
-
-    public void setReportDate(Date reportDate) {
-        this.reportDate = reportDate;
-    }
 
     public Time getCheckIn() {
         return checkIn;

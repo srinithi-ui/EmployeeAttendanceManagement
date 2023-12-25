@@ -99,12 +99,12 @@ public class ServicesImpl implements Services{
 
     }
 
-    public String applyActionStatus(int id, Operations operations) {
+    public String applyActionStatus( Operations operations) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Operations> entity = new HttpEntity<>(operations, headers);
-        UriComponents builder = UriComponentsBuilder.fromHttpUrl(baseUrlAction+"/approval").queryParam("id",id).build();
+        UriComponents builder = UriComponentsBuilder.fromHttpUrl(baseUrlAction+"/approval").build();
 
         return restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, entity, String.class).getBody();
 
@@ -132,12 +132,12 @@ public class ServicesImpl implements Services{
 
 
     }
-    public List<ReportVo> reportGeneration(int id) {
+    public List<ReportVo> reportGeneration(ReportVo reportVo) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Operations> entity = new HttpEntity<>(headers);
-        UriComponents builder = UriComponentsBuilder.fromHttpUrl(baseUrlAction+"/report").queryParam("id",id).build();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<ReportVo> entity = new HttpEntity<>(reportVo, headers);
+        UriComponents builder = UriComponentsBuilder.fromHttpUrl(baseUrlAction+"/report").build();
 
         return restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, List.class).getBody();
 

@@ -45,10 +45,10 @@ public class UserActionController {
     }
 
     @PutMapping("/approval")
-    public String actionUpdate(@RequestParam int id, @RequestBody Operations operation)
+    public String actionUpdate(@RequestBody Operations operation)
     {
 
-        return actionServices.applyActionStatus(id,operation);
+        return actionServices.applyActionStatus(operation);
     }
 
     @GetMapping("/viewactionhistory")
